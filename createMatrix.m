@@ -1,0 +1,24 @@
+function A = createMatrix(dim)
+   % A = sparse(dim,dim);
+   A=zeros(dim);
+    maxnel = min(16,dim);
+
+    for i = 1:dim
+        nel = floor(rand(1)*maxnel);
+        if(nel == 0)
+            val = 0;
+        else
+            val = 1/nel;
+        end
+        
+        for j = 1:nel
+            col_ind = ceil(rand(1)*dim);
+        
+            while(A(col_ind,i) ~= 0)
+                col_ind = ceil(rand(1)*dim);
+            end
+            
+            A(col_ind,i) = val;
+        end
+    end
+end
