@@ -1,0 +1,50 @@
+%Chelsea Blake
+%The Pythagorean Musical Scale: Infinite Circle of Fifths
+%script checks for uniform distribution of Pythagorean tone angles and builds density plots
+%note that the even tempered version of this is extremly similar
+
+
+
+
+
+n=1000;                             %number of points that will be 
+                                    %produced onto the unit circle
+                                    
+r_pyth(1)=1;                        %ratio, or r, 1 is set equal to one
+
+for k=2:n;                          %for every ratio from 2 to n%
+    r_pyth(k)=r_pyth(k-1)*(3/2);    %the ratio is equal to 3/2 times the
+                                    %previous ratio
+                                    
+    if r_pyth(k)>2                  %to keep within one octave, if the 
+        r_pyth(k)=r_pyth(k)/2;      %ratio is greater than 2, devide by 2
+    end
+    
+    theta_pyth=(2*pi)*log2(r_pyth);  %logarithmic transformation to map
+                                     %points onto unit circle for polar
+                                     %graph (theta, rho)
+end
+
+
+y=linspace(1,2,n);
+plot(theta_pyth,y,'r.');            %scatter plot of the angles
+
+hist(theta_pyth,50);                %histogram of the angles
+
+
+k=0;                %the starting point of the loop 
+a=pi;               %lower boundry of interval
+b=2*pi;             %upper boundry of interval
+
+
+for i=1:n;          %this loop checks to see if the point is in the 
+                    %boundry, gives it a sum of 1 if it is and sums 
+                    %them together 
+    if theta_pyth(i)>=a && theta_pyth(i)<=b;
+      k=k+1;
+    end
+  
+  k;
+end
+  mu=(2*pi*k)/n     %the answer is then multipled by 1/n and a scaler 
+                    %of 2pi
