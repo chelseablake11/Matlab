@@ -1,0 +1,33 @@
+%Chelsea Blake
+%The Pythagorean Musical Scale: Infinite Circle of Fifths
+%Function script for playsound command that will play the chords together
+
+
+
+
+function playsound2(r,s)
+% r = Pythagorean fifth ratios
+% s = even tempered fifth ratios
+
+%Choose a sampling rate fs, e.g. 8000 Hz. (You'll need a higher rate if 
+%you want sounds above 4000 Hz).
+
+ fs = 12000;
+ 
+ %Generate time values from 0 to T seconds at the desired rate.
+ 
+ T = 0.5; % 2 seconds duration
+ t = 0:(1/fs):T;
+ 
+ %Generate a sine wave of the desired frequency f at those times.
+ 
+  f = 240;  %base frequency
+  a = 0.07; %parameter 1
+  b= 0.5;   %parameter 2
+
+  
+      x=b*sin(2*pi*r*f*t);  %Pythagorean tone
+      w=b*sin(2*pi*s*f*t);  %even tempered tone
+     sound(x+w, fs);        %plays the tones together
+  
+  end
