@@ -1,0 +1,53 @@
+%Chelsea Blake
+%The Pythagorean Musical Scale: Infinite Circle of Fifths
+%Script to produce even-tempered fifth tones, map them onto the unit cicle,
+%and play the tone produced
+
+
+
+
+
+
+
+n=25;                                %number of points that will be 
+                                     %produced onto the unit circle
+r_even(1)=1;                         %ratio, or r, 1 is set equal to one
+
+for k=2:n;                           %for every ratio from 2 to n%
+ r_even(k)=r_even(k-1)*(2^(7/12));   %the ratio is equal to 2^7/12 times
+                                     %the previous ratio
+    if r_even(k)>2                   %to keep within one octave, if the 
+        r_even(k)=r_even(k)/2;       %ratio is greater than 2, devide by 2
+    end
+    
+    theta_even=(2*pi)*log2(r_even);    %logarithmic transformation to map
+                                       %points onto unit circle for polar
+                                       %graph (theta, rho)
+end
+
+
+
+
+rho=ones(1,n);              %giving the rho axes of the polar graph
+                            %(theta,rho) the point from 1 to n so
+                            %that way each theta corresponds to a rho
+
+
+f=figure('units','normalized','outerposition',[0 0 1 1]); 
+set(f, 'doublebuffer', 'on');             %creates the figure for animation
+polar(0,0)                                %creates an empty polar plot
+pause(.3)                                 %pauses computing the script
+
+xlim([-1,1])                              %x and y limits of the graph for
+ylim([-1,1])                              %the unit circle
+
+
+for i=1:n;                                      %This loop creates an
+   unit=polar(theta_even(i),rho(i),'.');        %animation of the points
+      set(unit,'MarkerSize',24);                %being plotted onto the
+                                                %the graph at the exact
+   playsound(r_even(i),1);                      %time the corresponding
+   drawnow;                                     %chord is being played
+   pause(.4);                                   %the function playsound
+   hold on;                                     %will be defined below
+end
