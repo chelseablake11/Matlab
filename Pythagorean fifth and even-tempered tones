@@ -1,0 +1,83 @@
+%Chelsea Blake
+%The Pythagorean Musical Scale: Infinite Circle of Fifths
+%Script to produce even-tempered and Pythagorean fifth tones, map them 
+%onto the unit cicle, and play the tones produced simultaneously
+
+
+
+
+
+
+
+
+n=50;                                    %number of points that will be
+                                         %produced onto the unit circle
+                                         
+r_pyth(1)=1;                             %Pythagorean ratio, or r, 1 is 
+                                         %set equal to one
+                                         
+r_even(1)=1;                             %even ratio, or r, 1 is set 
+                                         %equal to one
+                                         
+                                         
+for k=2:n;                               %for every ratio from 2 to n%
+    r_pyth(k)=r_pyth(k-1)*(3/2);         %the Pythagorean ratio is equal 
+                                         %to 3/2 times the previous ratio
+                                         
+    r_even(k)=r_even(k-1)*(2^(7/12));    %the even tempered ratio is equal 
+                                         %to 3/2 times the previous ratio
+                                        
+    if r_pyth(k)>2                       %to keep within one octave, if the
+        r_pyth(k)=r_pyth(k)/2;           %ratio is greater than 2, divide 
+    end                                  %by 2
+    
+    if r_even(k)>2
+        r_even(k)=r_even(k)/2;
+    end
+    
+    theta_pyth=(2*pi)*log2(r_pyth);      %logarithmic transformation to 
+                                         %map points onto unit circle for 
+                                         %polar graph (theta, rho)
+    theta_even=(2*pi)*log2(r_even);
+    
+end
+
+
+
+rho=ones(1,n);               %giving the rho axes of the polar graph
+                             %(theta,rho) the point from 1 to n so
+                             %that way each theta corresponds to a rho
+
+
+f=figure('units','normalized','outerposition',[0 0 1 1]);
+set(f, 'doublebuffer', 'on');       %creates the figure for animation
+polar(0,0)                          %creates an empty polar plot
+pause(.5)                           %pauses computing the script
+
+xlim([-1,1])
+ylim([-1,1])
+
+dim = [.05 .2 .2 .3];               %adds text box to graph
+str = 'Blue points represent Pythagorean fifth tones';
+annotation('textbox',dim,'String',str,'FitBoxToText','on');
+
+
+dim = [.05 .25 .3 .3];              %adds text box to graph
+str = 'Red points repesent even-tempered fifth tones';
+annotation('textbox',dim,'String',str,'FitBoxToText','on');
+
+
+for i=1:n;                                      %This loop creates an
+   unit=polar(theta_pyth(i),rho(i),'.');        %animation of the points
+      set(unit,'MarkerSize',24);                %being plotted onto the
+                                                %the graph at the exact
+   units=polar(theta_even(i),rho(i),'.r');      %time the corresponding    
+      set(units,'MarkerSize',24);               %chord is being played
+                                                %the function playsound2
+                                                %will be defined below
+   playsound2(r_pyth(i),r_even(i));
+   drawnow;
+   pause(.5); 
+   hold on;
+end
+  
